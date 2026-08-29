@@ -155,13 +155,44 @@
   .view-toggle button.active { color: #171205; background: var(--gold); border-color: var(--gold); }
   .view-section { display: none; }
   .view-section.active { display: block; }
+  .summary-top-row { display: flex; justify-content: flex-start; margin: 0 0 16px; }
+  .draft-status-panel {
+    background: var(--surface-1); border: 1px solid var(--gridline); border-radius: 12px;
+    padding: 14px 18px; width: 480px; max-width: 100%; font-size: 12.5px;
+  }
+  .dsp-heading {
+    font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-muted); margin: 0 0 8px;
+  }
+  .draft-order-bar { display: flex; justify-content: space-between; gap: 4px; margin: 0 0 14px; }
+  .draft-order-team { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; min-width: 0; }
+  .draft-order-arrow { font-size: 12px; font-weight: 800; color: var(--gold); line-height: 1; visibility: hidden; }
+  .draft-order-team.on-clock .draft-order-arrow { visibility: visible; }
+  .draft-order-name {
+    font-size: 10.5px; font-weight: 700; color: var(--text-secondary); text-align: center;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;
+    padding: 5px 3px; border-radius: 6px; width: 100%;
+  }
+  .draft-order-team.on-clock .draft-order-name { color: #171205; background: var(--gold); font-weight: 800; }
+  .dsp-countdown {
+    margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--gridline);
+    text-align: center; color: var(--text-secondary);
+  }
+  .dsp-countdown strong { color: var(--gold); font-size: 14px; }
+  .projected-pick-star { color: var(--gold); margin-right: 5px; font-size: 12px; }
   tr.player-row.drafted td { font-style: italic; text-decoration: line-through; }
   tr.player-row.drafted td.draft-cell { font-style: normal; text-decoration: none; }
   td.draft-cell { white-space: nowrap; }
+  .draft-controls-inline { display: inline-flex; align-items: center; gap: 6px; }
   .draft-select {
-    font-family: inherit; font-size: 11.5px; font-weight: 800; color: #171205; background: var(--gold);
-    border: none; border-radius: 6px; padding: 5px 8px; cursor: pointer;
+    font-family: inherit; font-size: 11.5px; font-weight: 700; color: var(--text-primary); background: var(--surface-1);
+    border: 1px solid var(--gridline); border-radius: 6px; padding: 5px 8px; cursor: pointer;
   }
+  .draft-confirm-btn {
+    font-family: inherit; font-size: 11.5px; font-weight: 800; color: #171205; background: var(--gold);
+    border: none; border-radius: 6px; padding: 5px 10px; cursor: pointer; white-space: nowrap;
+  }
+  .draft-confirm-btn:hover { opacity: 0.9; }
   .draft-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
   .draft-status .draft-team-name { font-weight: 700; color: var(--gold); }
   .draft-undo {
@@ -173,17 +204,18 @@
   .draft-controls-card { margin: 0 0 16px; }
   .draft-controls-card .draft-status { font-size: 13px; }
   .draft-controls-card .draft-select { font-size: 13px; padding: 6px 10px; }
+  .draft-controls-card .draft-confirm-btn { font-size: 13px; padding: 6px 12px; }
   .draft-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 20px; }
   .draft-toolbar button {
     font-family: inherit; font-size: 13px; font-weight: 700; color: var(--live); background: var(--surface-1);
     border: 1px solid var(--gridline); border-radius: 8px; padding: 8px 14px; cursor: pointer; flex-shrink: 0;
   }
   .draft-toolbar button:hover { background: var(--surface-2); }
-  #apply-keepers-btn {
+  .btn-apply-keepers {
     font-family: inherit; font-size: 13px; font-weight: 800; color: #171205; background: var(--gold);
     border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; flex-shrink: 0;
   }
-  #apply-keepers-btn:hover { opacity: 0.9; }
+  .btn-apply-keepers:hover { opacity: 0.9; }
   .keeper-team-name { font-size: 14.5px; font-weight: 700; color: var(--text-primary); }
   .keeper-form {
     display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 20px;
@@ -233,6 +265,11 @@
   .team-roster .roster-pos.pos-TE { color: var(--pos-te); }
   .team-roster .roster-pick { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
   .team-roster .roster-keeper { color: var(--gold); font-weight: 700; }
+  .team-pos-bucket { display: flex; gap: 14px; margin: 0 0 14px; font-size: 12px; font-weight: 800; }
+  .team-pos-bucket .pos-bucket-chip.pos-QB { color: var(--pos-qb); }
+  .team-pos-bucket .pos-bucket-chip.pos-RB { color: var(--pos-rb); }
+  .team-pos-bucket .pos-bucket-chip.pos-WR { color: var(--pos-wr); }
+  .team-pos-bucket .pos-bucket-chip.pos-TE { color: var(--pos-te); }
   .team-roster-empty { font-size: 12.5px; color: var(--text-muted); font-style: italic; padding: 6px 0; }
   .chart-pos-toggle { display: flex; gap: 8px; margin: 0 0 16px; }
   .chart-pos-btn {
@@ -262,6 +299,18 @@
     background: var(--gold); color: #171205; font-weight: 800; font-size: 11px;
     text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 24px;
     display: flex; align-items: center; gap: 9px; font-variant-numeric: tabular-nums;
+    position: sticky; top: 0; z-index: 30;
+  }
+  h1 { position: sticky; z-index: 29; background: var(--page-plane); }
+  .view-toggle { position: sticky; z-index: 28; background: var(--page-plane); }
+  #summary-view .summary-top-row { position: sticky; z-index: 27; background: var(--page-plane); }
+  /* overflow-x:auto on .table-wrap implicitly computes overflow-y to auto too
+     (CSS overflow interaction rule), which makes IT the sticky positioning
+     reference instead of the viewport -- so sticky headers only work above a
+     width where the table fits without needing that horizontal scroll. */
+  @media (min-width: 900px) {
+    .summary-table-wrap { overflow-x: visible; }
+    .summary-table-wrap thead th { position: sticky; z-index: 20; background: var(--page-plane); }
   }
   .ticker .ticker-dot {
     width: 7px; height: 7px; border-radius: 50%; background: var(--live);
@@ -287,8 +336,15 @@
     <button type="button" id="tab-draft">Draft Tracker</button>
   </div>
   <div class="view-section active" id="summary-view">
+    <div class="summary-top-row">
+      <div class="draft-status-panel">
+        <div class="dsp-heading">Draft Order</div>
+        <div class="draft-order-bar" id="draft-order-bar"></div>
+        <div class="dsp-countdown" id="dsp-countdown"></div>
+      </div>
+    </div>
     
-    <div class="table-wrap">
+    <div class="table-wrap summary-table-wrap">
       <table>
         <thead>
           <tr>
@@ -333,7 +389,7 @@
         stay put). Use it after re-generating this file with updated keeper
         data, or to undo test picks before the real draft.
       </p>
-      <button type="button" id="apply-keepers-btn">Apply Keepers</button>
+      <button type="button" class="btn-apply-keepers">Apply Keepers</button>
     </div>
     <div class="team-panels"><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Mike</span><span class="team-panel-count">2 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0036963">Amon-Ra St. Brown</a><span class="roster-pos pos-WR">WR · DET</span></span><span class="roster-pick">Round 3</span></li><li><span><a href="#" class="player-link" data-card="card-00-0040715">Cam Skattebo</a><span class="roster-pos pos-RB">RB · NYG</span></span><span class="roster-pick">Round 10</span></li></ul></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Keith</span><span class="team-panel-count">2 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0040734">TreVeyon Henderson</a><span class="roster-pos pos-RB">RB · NE</span></span><span class="roster-pick">Round 6</span></li><li><span><a href="#" class="player-link" data-card="card-00-0040129">Emeka Egbuka</a><span class="roster-pos pos-WR">WR · TB</span></span><span class="roster-pick">Round 12</span></li></ul></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Russo</span><span class="team-panel-count">0 kept</span></div></div><p class="team-roster-empty">No keepers.</p></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Tom</span><span class="team-panel-count">2 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0039139">Jahmyr Gibbs</a><span class="roster-pos pos-RB">RB · DET</span></span><span class="roster-pick">Round 1</span></li><li><span><a href="#" class="player-link" data-card="card-00-0039851">Drake Maye</a><span class="roster-pos pos-QB">QB · NE</span></span><span class="roster-pick">Round 12</span></li></ul></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Ian</span><span class="team-panel-count">1 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0034857">Josh Allen</a><span class="roster-pos pos-QB">QB · BUF</span></span><span class="roster-pick">Round 1</span></li></ul></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Mark</span><span class="team-panel-count">2 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0036900">Ja'Marr Chase</a><span class="roster-pos pos-WR">WR · CIN</span></span><span class="roster-pick">Round 1</span></li><li><span><a href="#" class="player-link" data-card="card-00-0036997">Javonte Williams</a><span class="roster-pos pos-RB">RB · DAL</span></span><span class="roster-pick">Round 14</span></li></ul></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Kellee</span><span class="team-panel-count">2 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0033280">Christian McCaffrey</a><span class="roster-pos pos-RB">RB · SF</span></span><span class="roster-pick">Round 2</span></li><li><span><a href="#" class="player-link" data-card="card-00-0038543">Jaxon Smith-Njigba</a><span class="roster-pos pos-WR">WR · SEA</span></span><span class="roster-pick">Round 4</span></li></ul></div><div class="team-panel"><div class="team-panel-header"><div class="team-panel-name-row"><span class="keeper-team-name">Jayme</span><span class="team-panel-count">2 kept</span></div></div><ul class="team-roster"><li><span><a href="#" class="player-link" data-card="card-00-0036223">Jonathan Taylor</a><span class="roster-pos pos-RB">RB · IND</span></span><span class="roster-pick">Round 3</span></li><li><span><a href="#" class="player-link" data-card="card-00-0039918">Caleb Williams</a><span class="roster-pos pos-QB">QB · CHI</span></span><span class="roster-pick">Round 12</span></li></ul></div></div>
   </div>
@@ -13215,6 +13271,7 @@
         a keeper's round during the live draft -- the round on a keeper is just
         a record of what it cost, not an enforced rule.
       </p>
+      <button type="button" class="btn-apply-keepers">Apply Keepers</button>
       <button type="button" id="reset-team-names-btn">Reset Team Names</button>
       <button type="button" id="reset-draft-btn">Reset Draft</button>
     </div>
@@ -13232,6 +13289,7 @@
     (function () {
       const ALL_PLAYERS = [{"cardId": "card-00-0039139", "name": "Jahmyr Gibbs", "position": "RB", "team": "DET"}, {"cardId": "card-00-0038542", "name": "Bijan Robinson", "position": "RB", "team": "ATL"}, {"cardId": "card-00-0039075", "name": "Puka Nacua", "position": "WR", "team": "LA"}, {"cardId": "card-00-0036900", "name": "Ja'Marr Chase", "position": "WR", "team": "CIN"}, {"cardId": "card-00-0036223", "name": "Jonathan Taylor", "position": "RB", "team": "IND"}, {"cardId": "card-00-0033280", "name": "Christian McCaffrey", "position": "RB", "team": "SF"}, {"cardId": "card-00-0038543", "name": "Jaxon Smith-Njigba", "position": "WR", "team": "SEA"}, {"cardId": "card-00-0036963", "name": "Amon-Ra St. Brown", "position": "WR", "team": "DET"}, {"cardId": "card-00-0037248", "name": "James Cook", "position": "RB", "team": "BUF"}, {"cardId": "card-00-0034857", "name": "Josh Allen", "position": "QB", "team": "BUF"}, {"cardId": "card-00-0037744", "name": "Trey McBride", "position": "TE", "team": "ARI"}, {"cardId": "card-00-0034844", "name": "Saquon Barkley", "position": "RB", "team": "PHI"}, {"cardId": "card-00-0039040", "name": "De'Von Achane", "position": "RB", "team": "MIA"}, {"cardId": "card-00-0039338", "name": "Brock Bowers", "position": "TE", "team": "LV"}, {"cardId": "card-00-0032764", "name": "Derrick Henry", "position": "RB", "team": "BAL"}, {"cardId": "card-00-0040122", "name": "Ashton Jeanty", "position": "RB", "team": "LV"}, {"cardId": "card-00-0040666", "name": "Omarion Hampton", "position": "RB", "team": "LAC"}, {"cardId": "card-00-0036358", "name": "CeeDee Lamb", "position": "WR", "team": "DAL"}, {"cardId": "card-00-0038597", "name": "Chase Brown", "position": "RB", "team": "CIN"}, {"cardId": "card-00-0038134", "name": "Ken Walker III", "position": "RB", "team": "KC"}, {"cardId": "card-00-0034796", "name": "Lamar Jackson", "position": "QB", "team": "BAL"}, {"cardId": "card-00-0036322", "name": "Justin Jefferson", "position": "WR", "team": "MIN"}, {"cardId": "card-00-0039851", "name": "Drake Maye", "position": "QB", "team": "NE"}, {"cardId": "card-00-0037238", "name": "Drake London", "position": "WR", "team": "ATL"}, {"cardId": "card-00-0038120", "name": "Breece Hall", "position": "RB", "team": "NYJ"}, {"cardId": "card-00-0036997", "name": "Javonte Williams", "position": "RB", "team": "DAL"}, {"cardId": "card-00-0040715", "name": "Cam Skattebo", "position": "RB", "team": "NYG"}, {"cardId": "card-00-0039910", "name": "Jayden Daniels", "position": "QB", "team": "WAS"}, {"cardId": "card-00-0040126", "name": "Colston Loveland", "position": "TE", "team": "CHI"}, {"cardId": "card-00-0037840", "name": "Kyren Williams", "position": "RB", "team": "LA"}, {"cardId": "card-00-0035700", "name": "Josh Jacobs", "position": "RB", "team": "GB"}, {"cardId": "card-00-0035676", "name": "A.J. Brown", "position": "WR", "team": "NE"}, {"cardId": "card-00-0036554", "name": "Nico Collins", "position": "WR", "team": "HOU"}, {"cardId": "card-00-0036389", "name": "Jalen Hurts", "position": "QB", "team": "PHI"}, {"cardId": "card-00-0036442", "name": "Joe Burrow", "position": "QB", "team": "CIN"}, {"cardId": "card-00-0037239", "name": "Chris Olave", "position": "WR", "team": "NO"}, {"cardId": "card-00-0039067", "name": "Rashee Rice", "position": "WR", "team": "KC"}, {"cardId": "card-nk-jeremiyahlove", "name": "Jeremiyah Love", "position": "RB", "team": "ARI"}, {"cardId": "card-00-0037247", "name": "George Pickens", "position": "WR", "team": "DAL"}, {"cardId": "card-00-0036973", "name": "Travis Etienne", "position": "RB", "team": "NO"}, {"cardId": "card-00-0040128", "name": "Tyler Warren", "position": "TE", "team": "IND"}, {"cardId": "card-00-0040691", "name": "Jaxson Dart", "position": "QB", "team": "NYG"}, {"cardId": "card-00-0039064", "name": "Zay Flowers", "position": "WR", "team": "BAL"}, {"cardId": "card-00-0040129", "name": "Emeka Egbuka", "position": "WR", "team": "TB"}, {"cardId": "card-00-0037809", "name": "Chig Okonkwo", "position": "TE", "team": "WAS"}, {"cardId": "card-00-0036912", "name": "DeVonta Smith", "position": "WR", "team": "PHI"}, {"cardId": "card-00-0039732", "name": "Bo Nix", "position": "QB", "team": "DEN"}, {"cardId": "card-00-0036355", "name": "Justin Herbert", "position": "QB", "team": "LAC"}, {"cardId": "card-00-0039918", "name": "Caleb Williams", "position": "QB", "team": "CHI"}, {"cardId": "card-00-0037740", "name": "Garrett Wilson", "position": "WR", "team": "NYJ"}, {"cardId": "card-00-0040663", "name": "Harold Fannin Jr.", "position": "TE", "team": "CLE"}, {"cardId": "card-00-0031381", "name": "Davante Adams", "position": "WR", "team": "LA"}, {"cardId": "card-00-0036971", "name": "Trevor Lawrence", "position": "QB", "team": "JAX"}, {"cardId": "card-00-0037240", "name": "Jameson Williams", "position": "WR", "team": "DET"}, {"cardId": "card-00-0033077", "name": "Dak Prescott", "position": "QB", "team": "DAL"}, {"cardId": "card-00-0026498", "name": "Matthew Stafford", "position": "QB", "team": "LA"}, {"cardId": "card-00-0033873", "name": "Patrick Mahomes", "position": "QB", "team": "KC"}, {"cardId": "card-00-0039337", "name": "Malik Nabers", "position": "WR", "team": "NYG"}, {"cardId": "card-00-0037834", "name": "Brock Purdy", "position": "QB", "team": "SF"}, {"cardId": "card-00-0033106", "name": "Jared Goff", "position": "QB", "team": "DET"}, {"cardId": "card-00-0036275", "name": "D'Andre Swift", "position": "RB", "team": "CHI"}, {"cardId": "card-00-0036410", "name": "Tee Higgins", "position": "WR", "team": "CIN"}, {"cardId": "card-00-0039065", "name": "Sam LaPorta", "position": "TE", "team": "DET"}, {"cardId": "card-00-0034753", "name": "Mark Andrews", "position": "TE", "team": "BAL"}, {"cardId": "card-00-0039361", "name": "Bucky Irving", "position": "RB", "team": "TB"}, {"cardId": "card-00-0040124", "name": "Tetairoa McMillan", "position": "WR", "team": "CAR"}, {"cardId": "card-00-0034351", "name": "Dallas Goedert", "position": "TE", "team": "PHI"}, {"cardId": "card-00-0039915", "name": "Ladd McConkey", "position": "WR", "team": "LAC"}, {"cardId": "card-00-0038996", "name": "Tucker Kraft", "position": "TE", "team": "GB"}, {"cardId": "card-00-0040784", "name": "Quinshon Judkins", "position": "RB", "team": "CLE"}, {"cardId": "card-00-0036970", "name": "Kyle Pitts", "position": "TE", "team": "ATL"}, {"cardId": "card-00-0035659", "name": "Terry McLaurin", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0040743", "name": "Tyler Shough", "position": "QB", "team": "NO"}, {"cardId": "card-00-0034827", "name": "DJ Moore", "position": "WR", "team": "BUF"}, {"cardId": "card-00-0040719", "name": "Bhayshul Tuten", "position": "RB", "team": "JAX"}, {"cardId": "card-00-0038124", "name": "Christian Watson", "position": "WR", "team": "GB"}, {"cardId": "card-00-0030506", "name": "Travis Kelce", "position": "TE", "team": "KC"}, {"cardId": "card-00-0037664", "name": "Alec Pierce", "position": "WR", "team": "IND"}, {"cardId": "card-00-0033090", "name": "Hunter Henry", "position": "TE", "team": "NE"}, {"cardId": "card-00-0038041", "name": "Jake Ferguson", "position": "TE", "team": "DAL"}, {"cardId": "card-00-0034855", "name": "Baker Mayfield", "position": "QB", "team": "TB"}, {"cardId": "card-00-0035685", "name": "David Montgomery", "position": "RB", "team": "HOU"}, {"cardId": "card-00-0039919", "name": "Rome Odunze", "position": "WR", "team": "CHI"}, {"cardId": "card-00-0040735", "name": "Luther Burden III", "position": "WR", "team": "CHI"}, {"cardId": "card-00-0036040", "name": "Juwan Johnson", "position": "TE", "team": "NO"}, {"cardId": "card-00-0038933", "name": "Dalton Kincaid", "position": "TE", "team": "BUF"}, {"cardId": "card-00-0034348", "name": "Courtland Sutton", "position": "WR", "team": "DEN"}, {"cardId": "card-00-0033288", "name": "George Kittle", "position": "TE", "team": "SF"}, {"cardId": "card-00-0040734", "name": "TreVeyon Henderson", "position": "RB", "team": "NE"}, {"cardId": "card-00-0031408", "name": "Mike Evans", "position": "WR", "team": "SF"}, {"cardId": "card-00-0036613", "name": "Jaylen Waddle", "position": "WR", "team": "DEN"}, {"cardId": "card-00-0035229", "name": "T.J. Hockenson", "position": "TE", "team": "MIN"}, {"cardId": "card-00-0037838", "name": "Isaiah Likely", "position": "TE", "team": "NYG"}, {"cardId": "card-00-0038935", "name": "Brenton Strange", "position": "TE", "team": "JAX"}, {"cardId": "card-00-0036875", "name": "Rhamondre Stevenson", "position": "RB", "team": "NE"}, {"cardId": "card-00-0038606", "name": "Parker Washington", "position": "WR", "team": "JAX"}, {"cardId": "card-00-0036264", "name": "Jordan Love", "position": "QB", "team": "GB"}, {"cardId": "card-00-0034383", "name": "Dalton Schultz", "position": "TE", "team": "HOU"}, {"cardId": "card-00-0039916", "name": "Ricky Pearsall", "position": "WR", "team": "SF"}, {"cardId": "card-00-0036555", "name": "Chuba Hubbard", "position": "RB", "team": "CAR"}, {"cardId": "card-00-0035640", "name": "DK Metcalf", "position": "WR", "team": "PIT"}, {"cardId": "card-00-0038128", "name": "Malik Willis", "position": "QB", "team": "MIA"}, {"cardId": "card-00-0036894", "name": "Pat Freiermuth", "position": "TE", "team": "PIT"}, {"cardId": "card-00-0035261", "name": "Tony Pollard", "position": "RB", "team": "TEN"}, {"cardId": "card-00-0038559", "name": "Michael Wilson", "position": "WR", "team": "ARI"}, {"cardId": "card-00-0039793", "name": "A.J. Barner", "position": "TE", "team": "SEA"}, {"cardId": "card-nk-carnelltate", "name": "Carnell Tate", "position": "WR", "team": "TEN"}, {"cardId": "card-nk-kenyonsadiq", "name": "Kenyon Sadiq", "position": "TE", "team": "NYJ"}, {"cardId": "card-00-0034869", "name": "Sam Darnold", "position": "QB", "team": "SEA"}, {"cardId": "card-00-0039849", "name": "Marvin Harrison Jr.", "position": "WR", "team": "ARI"}, {"cardId": "card-00-0037228", "name": "Jaylen Warren", "position": "RB", "team": "PIT"}, {"cardId": "card-00-0037252", "name": "Greg Dulcich", "position": "TE", "team": "MIA"}, {"cardId": "card-00-0035710", "name": "Daniel Jones", "position": "QB", "team": "IND"}, {"cardId": "card-00-0039893", "name": "Brian Thomas Jr.", "position": "WR", "team": "JAX"}, {"cardId": "card-00-0035228", "name": "Kyler Murray", "position": "QB", "team": "MIN"}, {"cardId": "card-00-0033921", "name": "Chris Godwin", "position": "WR", "team": "TB"}, {"cardId": "card-00-0040189", "name": "Oronde Gadsden II", "position": "TE", "team": "LAC"}, {"cardId": "card-00-0036139", "name": "Rico Dowdle", "position": "RB", "team": "PIT"}, {"cardId": "card-00-0039163", "name": "C.J. Stroud", "position": "QB", "team": "HOU"}, {"cardId": "card-nk-chigoziemokonkwo", "name": "Chigoziem Okonkwo", "position": "TE", "team": "WAS"}, {"cardId": "card-00-0038117", "name": "Wan'Dale Robinson", "position": "WR", "team": "TEN"}, {"cardId": "card-00-0034960", "name": "Jakobi Meyers", "position": "WR", "team": "JAX"}, {"cardId": "card-00-0038129", "name": "Cade Otton", "position": "TE", "team": "TB"}, {"cardId": "card-00-0040584", "name": "Gunnar Helm", "position": "TE", "team": "TEN"}, {"cardId": "card-00-0040730", "name": "RJ Harvey", "position": "RB", "team": "DEN"}, {"cardId": "card-00-0036252", "name": "Michael Pittman Jr.", "position": "WR", "team": "PIT"}, {"cardId": "card-00-0038544", "name": "Quentin Johnston", "position": "WR", "team": "LAC"}, {"cardId": "card-00-0039150", "name": "Bryce Young", "position": "QB", "team": "CAR"}, {"cardId": "card-00-0038997", "name": "Josh Downs", "position": "WR", "team": "IND"}, {"cardId": "card-nk-kylemonanagi", "name": "Kyle Monanagi", "position": "RB", "team": "CHI"}, {"cardId": "card-00-0038994", "name": "Jordan Addison", "position": "WR", "team": "MIN"}, {"cardId": "card-00-0039146", "name": "Jayden Reed", "position": "WR", "team": "GB"}, {"cardId": "card-00-0034829", "name": "Mike Gesicki", "position": "TE", "team": "CIN"}, {"cardId": "card-00-0037816", "name": "Romeo Doubs", "position": "WR", "team": "NE"}, {"cardId": "card-00-0036158", "name": "J.K. Dobbins", "position": "RB", "team": "DEN"}, {"cardId": "card-00-0037261", "name": "Khalil Shakir", "position": "WR", "team": "BUF"}, {"cardId": "card-00-0036244", "name": "Colby Parkinson", "position": "TE", "team": "LA"}, {"cardId": "card-00-0033858", "name": "Jonnu Smith", "position": "TE", "team": NaN}, {"cardId": "card-00-0033885", "name": "David Njoku", "position": "TE", "team": "LAC"}, {"cardId": "card-00-0033293", "name": "Aaron Jones", "position": "RB", "team": "MIN"}, {"cardId": "card-00-0039894", "name": "Xavier Worthy", "position": "WR", "team": "KC"}, {"cardId": "card-00-0040667", "name": "Matthew Golden", "position": "WR", "team": "GB"}, {"cardId": "card-00-0040737", "name": "Terrance Ferguson", "position": "TE", "team": "LA"}, {"cardId": "card-nk-jadarianprice", "name": "Jadarian Price", "position": "RB", "team": "SEA"}, {"cardId": "card-00-0033881", "name": "Evan Engram", "position": "TE", "team": "DEN"}, {"cardId": "card-00-0031610", "name": "Darren Waller", "position": "TE", "team": NaN}, {"cardId": "card-nk-lemonmakai", "name": "Makai Lemon", "position": "WR", "team": "PHI"}, {"cardId": "card-nk-jordyntyson", "name": "Jordyn Tyson", "position": "WR", "team": "NO"}, {"cardId": "card-00-0023459", "name": "Aaron Rodgers", "position": "QB", "team": "PIT"}, {"cardId": "card-00-0040676", "name": "Cameron Ward", "position": "QB", "team": "TEN"}, {"cardId": "card-00-0033119", "name": "Jacoby Brissett", "position": "QB", "team": "ARI"}, {"cardId": "card-00-0039738", "name": "Blake Corum", "position": "RB", "team": "LA"}, {"cardId": "card-00-0033040", "name": "Tyreek Hill", "position": "WR", "team": NaN}, {"cardId": "card-00-0035719", "name": "Deebo Samuel", "position": "WR", "team": "SF"}, {"cardId": "card-00-0040236", "name": "Kyle Monangai", "position": "RB", "team": "CHI"}, {"cardId": "card-00-0036407", "name": "Jerry Jeudy", "position": "WR", "team": "CLE"}, {"cardId": "card-00-0040130", "name": "Jayden Higgins", "position": "WR", "team": "HOU"}, {"cardId": "card-00-0038563", "name": "Tre Tucker", "position": "WR", "team": "LV"}, {"cardId": "card-00-0035689", "name": "Dawson Knox", "position": "TE", "team": "BUF"}, {"cardId": "card-00-0036919", "name": "Kenneth Gainwell", "position": "RB", "team": "TB"}, {"cardId": "card-00-0037256", "name": "Rachaad White", "position": "RB", "team": "WAS"}, {"cardId": "card-00-0040242", "name": "Jacory Croskey-Merritt", "position": "RB", "team": "WAS"}, {"cardId": "card-00-0037545", "name": "Rashid Shaheed", "position": "WR", "team": "SEA"}, {"cardId": "card-00-0039344", "name": "Jonathon Brooks", "position": "RB", "team": "CAR"}, {"cardId": "card-00-0039491", "name": "Jalen Coker", "position": "WR", "team": "CAR"}, {"cardId": "card-00-0040736", "name": "Mason Taylor", "position": "TE", "team": "NYJ"}, {"cardId": "card-00-0039066", "name": "Michael Mayer", "position": "TE", "team": "LV"}, {"cardId": "card-00-0039855", "name": "Jalen McMillan", "position": "WR", "team": "TB"}, {"cardId": "card-nk-concepcionkc", "name": "KC Concepcion", "position": "WR", "team": "CLE"}, {"cardId": "card-00-0039847", "name": "Theo Johnson", "position": "TE", "team": "NYG"}, {"cardId": "card-00-0037112", "name": "Jake Tonges", "position": "TE", "team": "SF"}, {"cardId": "card-00-0037525", "name": "Jordan Mason", "position": "RB", "team": "MIN"}, {"cardId": "card-00-0030565", "name": "Geno Smith", "position": "QB", "team": "NYJ"}, {"cardId": "card-00-0036290", "name": "Cole Kmet", "position": "TE", "team": "CHI"}, {"cardId": "card-00-0039165", "name": "Zach Charbonnet", "position": "RB", "team": "SEA"}, {"cardId": "card-00-0039880", "name": "Malik Washington", "position": "WR", "team": "MIA"}, {"cardId": "card-00-0040583", "name": "Woody Marks", "position": "RB", "team": "HOU"}, {"cardId": "card-00-0037005", "name": "Tommy Tremble", "position": "TE", "team": "CAR"}, {"cardId": "card-00-0039890", "name": "Adonai Mitchell", "position": "WR", "team": "NYJ"}, {"cardId": "card-00-0039356", "name": "Ja'Tavion Sanders", "position": "TE", "team": "CAR"}, {"cardId": "card-00-0037291", "name": "Jalen Nailor", "position": "WR", "team": "LV"}, {"cardId": "card-nk-brazzellchristopher", "name": "Chris Brazzell", "position": "WR", "team": "CAR"}, {"cardId": "card-00-0039032", "name": "Tyjae Spears", "position": "RB", "team": "TEN"}, {"cardId": "card-00-0036550", "name": "Rashod Bateman", "position": "WR", "team": "BAL"}, {"cardId": "card-00-0039410", "name": "Ryan Flournoy", "position": "WR", "team": "DAL"}, {"cardId": "card-00-0038558", "name": "Darnell Washington", "position": "TE", "team": "PIT"}, {"cardId": "card-00-0036259", "name": "Jauan Jennings", "position": "WR", "team": "MIN"}, {"cardId": "card-00-0040727", "name": "Tre Harris", "position": "WR", "team": "LAC"}, {"cardId": "card-00-0034837", "name": "Calvin Ridley", "position": "WR", "team": "TEN"}, {"cardId": "card-00-0036637", "name": "Noah Gray", "position": "TE", "team": "KC"}, {"cardId": "card-00-0038608", "name": "Kayshon Boutte", "position": "WR", "team": "NE"}, {"cardId": "card-nk-antoniowilliams", "name": "Antonio Williams", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0031588", "name": "Stefon Diggs", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0033110", "name": "Tyler Higbee", "position": "TE", "team": "LA"}, {"cardId": "card-00-0040739", "name": "Elijah Arroyo", "position": "TE", "team": "SEA"}, {"cardId": "card-nk-elistowers", "name": "Eli Stowers", "position": "TE", "team": "PHI"}, {"cardId": "card-00-0035644", "name": "Noah Fant", "position": "TE", "team": "NO"}, {"cardId": "card-00-0033906", "name": "Alvin Kamara", "position": "RB", "team": "NO"}, {"cardId": "card-00-0033908", "name": "Cooper Kupp", "position": "WR", "team": "SEA"}, {"cardId": "card-nk-cooperomar", "name": "Omar Cooper Jr.", "position": "WR", "team": "NYJ"}, {"cardId": "card-nk-bostondenzel", "name": "Denzel Boston", "position": "WR", "team": "CLE"}, {"cardId": "card-nk-destriblingzhaun", "name": "De'Zhaun Stribling", "position": "WR", "team": "SF"}, {"cardId": "card-00-0039384", "name": "Tyrone Tracy Jr.", "position": "RB", "team": "NYG"}, {"cardId": "card-00-0032392", "name": "Austin Hooper", "position": "TE", "team": "ATL"}, {"cardId": "card-00-0035535", "name": "Darius Slayton", "position": "WR", "team": "NYG"}, {"cardId": "card-00-0037197", "name": "Isiah Pacheco", "position": "RB", "team": "DET"}, {"cardId": "card-00-0040669", "name": "Isaac TeSlaa", "position": "WR", "team": "DET"}, {"cardId": "card-00-0035249", "name": "Josh Oliver", "position": "TE", "team": "MIN"}, {"cardId": "card-nk-andreiiosvias", "name": "Andrei Iosvias", "position": "WR", "team": "CIN"}, {"cardId": "card-00-0039342", "name": "Xavier Legette", "position": "WR", "team": "CAR"}, {"cardId": "card-00-0036309", "name": "Darnell Mooney", "position": "WR", "team": "NYG"}, {"cardId": "card-00-0040134", "name": "Pat Bryant", "position": "WR", "team": "DEN"}, {"cardId": "card-nk-eliraridon", "name": "Eli Raridon", "position": "TE", "team": "NE"}, {"cardId": "card-nk-bernardgermie", "name": "Germie Bernard", "position": "WR", "team": "PIT"}, {"cardId": "card-00-0038977", "name": "Tank Dell", "position": "WR", "team": "HOU"}, {"cardId": "card-00-0037263", "name": "Tyler Allgeier", "position": "RB", "team": "ARI"}, {"cardId": "card-nk-fieldsmalachi", "name": "Malachi Fields", "position": "WR", "team": "NYG"}, {"cardId": "card-00-0039041", "name": "Elijah Higgins", "position": "TE", "team": "ARI"}, {"cardId": "card-00-0038115", "name": "Daniel Bellinger", "position": "TE", "team": "TEN"}, {"cardId": "card-00-0040138", "name": "Jaylin Noel", "position": "WR", "team": "HOU"}, {"cardId": "card-00-0038611", "name": "Chris Rodriguez", "position": "RB", "team": "JAX"}, {"cardId": "card-00-0035631", "name": "Drew Sample", "position": "TE", "team": "CIN"}, {"cardId": "card-00-0039868", "name": "Troy Franklin", "position": "WR", "team": "DEN"}, {"cardId": "card-00-0040718", "name": "Travis Hunter", "position": "WR", "team": "JAX"}, {"cardId": "card-00-0040187", "name": "Mitchell Evans", "position": "TE", "team": "CAR"}, {"cardId": "card-00-0037666", "name": "Jalen Tolbert", "position": "WR", "team": "MIA"}, {"cardId": "card-00-0036422", "name": "Adam Trautman", "position": "TE", "team": "DEN"}, {"cardId": "card-00-0036741", "name": "Jack Stoll", "position": "TE", "team": "CLE"}, {"cardId": "card-00-0039144", "name": "Luke Musgrave", "position": "TE", "team": "GB"}, {"cardId": "card-00-0040194", "name": "Jackson Hawes", "position": "TE", "team": "BUF"}, {"cardId": "card-nk-kacmarekwilliam", "name": "Will Kacmarek", "position": "TE", "team": "MIA"}, {"cardId": "card-00-0038619", "name": "Andrei Iosivas", "position": "WR", "team": "CIN"}, {"cardId": "card-00-0034613", "name": "Tanner Hudson", "position": "TE", "team": "CIN"}, {"cardId": "card-00-0038104", "name": "Tyquan Thornton", "position": "WR", "team": "KC"}, {"cardId": "card-00-0038046", "name": "Charlie Kolar", "position": "TE", "team": "LAC"}, {"cardId": "card-00-0034975", "name": "Justice Hill", "position": "RB", "team": "BAL"}, {"cardId": "card-00-0036754", "name": "Brock Wright", "position": "TE", "team": "DET"}, {"cardId": "card-00-0040162", "name": "Dylan Sampson", "position": "RB", "team": "CLE"}, {"cardId": "card-00-0039912", "name": "Ben Sinnott", "position": "TE", "team": "WAS"}, {"cardId": "card-00-0038547", "name": "Luke Schoonmaker", "position": "TE", "team": "DAL"}, {"cardId": "card-00-0037292", "name": "Drew Ogletree", "position": "TE", "team": "IND"}, {"cardId": "card-00-0039359", "name": "Cade Stover", "position": "TE", "team": "HOU"}, {"cardId": "card-00-0037805", "name": "Jeremy Ruckert", "position": "TE", "team": "NYJ"}, {"cardId": "card-00-0033217", "name": "Mo Alie-Cox", "position": "TE", "team": "IND"}, {"cardId": "card-00-0039814", "name": "Erick All", "position": "TE", "team": "CIN"}, {"cardId": "card-00-0036628", "name": "John Bates", "position": "TE", "team": "WAS"}, {"cardId": "card-00-0035537", "name": "Ty Johnson", "position": "RB", "team": "BUF"}, {"cardId": "card-nk-bellchristopher", "name": "Chris Bell", "position": "WR", "team": "MIA"}, {"cardId": "card-nk-calebdouglas", "name": "Caleb Douglas", "position": "WR", "team": "MIA"}, {"cardId": "card-00-0038589", "name": "Josh Whyle", "position": "TE", "team": "GB"}, {"cardId": "card-00-0038976", "name": "Marvin Mims", "position": "WR", "team": "DEN"}, {"cardId": "card-00-0040363", "name": "Keleki Latu", "position": "TE", "team": "BUF"}, {"cardId": "card-00-0040729", "name": "Jack Bech", "position": "WR", "team": "LV"}, {"cardId": "card-00-0037475", "name": "Stone Smartt", "position": "TE", "team": "PHI"}, {"cardId": "card-00-0037746", "name": "Brian Robinson Jr.", "position": "RB", "team": "ATL"}, {"cardId": "card-nk-boerkirchernate", "name": "Nate Boerkircher", "position": "TE", "team": "JAX"}, {"cardId": "card-00-0034798", "name": "Durham Smythe", "position": "TE", "team": "BAL"}, {"cardId": "card-00-0039050", "name": "Payne Durham", "position": "TE", "team": "TB"}, {"cardId": "card-00-0036261", "name": "Brandon Aiyuk", "position": "WR", "team": "SF"}, {"cardId": "card-00-0034365", "name": "Ian Thomas", "position": "TE", "team": "LV"}, {"cardId": "card-00-0039648", "name": "David Martin-Robinson", "position": "TE", "team": "TEN"}, {"cardId": "card-00-0039737", "name": "Tip Reiman", "position": "TE", "team": "ARI"}, {"cardId": "card-00-0034981", "name": "Foster Moreau", "position": "TE", "team": "HOU"}, {"cardId": "card-00-0035329", "name": "Donald Parham", "position": "TE", "team": "PIT"}, {"cardId": "card-00-0039424", "name": "Devaughn Vele", "position": "WR", "team": "NO"}, {"cardId": "card-00-0033537", "name": "Deshaun Watson", "position": "QB", "team": "CLE"}, {"cardId": "card-00-0034775", "name": "Christian Kirk", "position": "WR", "team": "SF"}, {"cardId": "card-00-0037801", "name": "Kavontae Turpin", "position": "WR", "team": "DAL"}, {"cardId": "card-00-0033526", "name": "Samaje Perine", "position": "RB", "team": "CIN"}, {"cardId": "card-00-0039794", "name": "Braelon Allen", "position": "RB", "team": "NYJ"}, {"cardId": "card-00-0038393", "name": "Dontayvion Wicks", "position": "WR", "team": "PHI"}, {"cardId": "card-00-0039901", "name": "Keon Coleman", "position": "WR", "team": "BUF"}, {"cardId": "card-00-0036501", "name": "Michael Carter", "position": "RB", "team": "PHI"}, {"cardId": "card-nk-jakobilane", "name": "Ja'Kobi Lane", "position": "WR", "team": "BAL"}, {"cardId": "card-nk-fernandomendoza", "name": "Fernando Mendoza", "position": "QB", "team": "LV"}, {"cardId": "card-00-0039917", "name": "Michael Penix Jr.", "position": "QB", "team": "ATL"}, {"cardId": "card-nk-branchzachariah", "name": "Zachariah Branch", "position": "WR", "team": "ATL"}, {"cardId": "card-00-0038555", "name": "Tank Bigsby", "position": "RB", "team": "PHI"}, {"cardId": "card-00-0035021", "name": "Ashton Dulin", "position": "WR", "team": "IND"}, {"cardId": "card-00-0036626", "name": "Dyami Brown", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0038621", "name": "DeMario Douglas", "position": "WR", "team": "NE"}, {"cardId": "card-00-0037741", "name": "Jahan Dotson", "position": "WR", "team": "ATL"}, {"cardId": "card-nk-michaelwashington", "name": "Mike Washington Jr.", "position": "RB", "team": "LV"}, {"cardId": "card-00-0033553", "name": "James Conner", "position": "RB", "team": "ARI"}, {"cardId": "card-00-0033555", "name": "Mack Hollins", "position": "WR", "team": "NE"}, {"cardId": "card-00-0038979", "name": "Cedric Tillman", "position": "WR", "team": "CLE"}, {"cardId": "card-00-0033307", "name": "Kendrick Bourne", "position": "WR", "team": "ARI"}, {"cardId": "card-00-0038618", "name": "Xavier Hutchinson", "position": "WR", "team": "HOU"}, {"cardId": "card-00-0040648", "name": "Tory Horton", "position": "WR", "team": "SEA"}, {"cardId": "card-00-0039391", "name": "Kimani Vidal", "position": "RB", "team": "LAC"}, {"cardId": "card-00-0032385", "name": "Sterling Shepard", "position": "WR", "team": "TB"}, {"cardId": "card-00-0037742", "name": "Treylon Burks", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0040705", "name": "Chimere Dike", "position": "WR", "team": "TEN"}, {"cardId": "card-nk-colemankevin", "name": "Kevin Coleman Jr.", "position": "WR", "team": "MIA"}, {"cardId": "card-00-0039811", "name": "MarShawn Lloyd", "position": "RB", "team": "GB"}, {"cardId": "card-00-0032464", "name": "Kalif Raymond", "position": "WR", "team": "CHI"}, {"cardId": "card-nk-brooksjonathan", "name": "Jonathan Brooks", "position": "RB", "team": "CAR"}, {"cardId": "card-00-0038454", "name": "Keaton Mitchell", "position": "RB", "team": "LAC"}, {"cardId": "card-00-0039355", "name": "Luke McCaffrey", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0039875", "name": "Ray Davis", "position": "RB", "team": "BUF"}, {"cardId": "card-00-0036849", "name": "Tutu Atwell", "position": "WR", "team": "MIA"}, {"cardId": "card-00-0035208", "name": "Olamide Zaccheaus", "position": "WR", "team": "ATL"}, {"cardId": "card-00-0035662", "name": "Marquise Brown", "position": "WR", "team": "PHI"}, {"cardId": "card-00-0040170", "name": "Elic Ayomanor", "position": "WR", "team": "TEN"}, {"cardId": "card-00-0039874", "name": "Jaylen Wright", "position": "RB", "team": "MIA"}, {"cardId": "card-00-0036182", "name": "Nick Westbrook-Ikhine", "position": "WR", "team": "IND"}, {"cardId": "card-00-0036988", "name": "Josh Palmer", "position": "WR", "team": "BUF"}, {"cardId": "card-nk-colemanjonah", "name": "Jonah Coleman", "position": "RB", "team": "DEN"}, {"cardId": "card-00-0039792", "name": "Devontez Walker", "position": "WR", "team": "BAL"}, {"cardId": "card-00-0040009", "name": "Savion Williams", "position": "WR", "team": "GB"}, {"cardId": "card-nk-hurstted", "name": "Ted Hurst", "position": "WR", "team": "TB"}, {"cardId": "card-nk-jamesjordan", "name": "Jordan James", "position": "RB", "team": "SF"}, {"cardId": "card-00-0038951", "name": "Sean Tucker", "position": "RB", "team": "TB"}, {"cardId": "card-00-0033589", "name": "David Moore", "position": "WR", "team": "CAR"}, {"cardId": "card-00-0038705", "name": "Emari Demercado", "position": "RB", "team": "KC"}, {"cardId": "card-00-0038685", "name": "Chris Brooks", "position": "RB", "team": "GB"}, {"cardId": "card-nk-emmettjohnson", "name": "Emmett Johnson", "position": "RB", "team": "KC"}, {"cardId": "card-00-0040782", "name": "Isaiah Bond", "position": "WR", "team": "CLE"}, {"cardId": "card-00-0040131", "name": "Kyle Williams", "position": "WR", "team": "NE"}, {"cardId": "card-00-0034860", "name": "Dante Pettis", "position": "WR", "team": "BUF"}, {"cardId": "card-00-0040164", "name": "Jaylin Lane", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0035250", "name": "Devin Singletary", "position": "RB", "team": "NYG"}, {"cardId": "card-00-0039751", "name": "Jordan Whittington", "position": "WR", "team": "LA"}, {"cardId": "card-00-0033891", "name": "Zay Jones", "position": "WR", "team": "ARI"}, {"cardId": "card-00-0040237", "name": "Tez Johnson", "position": "WR", "team": "TB"}, {"cardId": "card-00-0037563", "name": "Malik Davis", "position": "RB", "team": "DAL"}, {"cardId": "card-00-0039798", "name": "Isaiah Davis", "position": "RB", "team": "NYJ"}, {"cardId": "card-00-0031235", "name": "Odell Beckham Jr.", "position": "WR", "team": "NYG"}, {"cardId": "card-00-0040581", "name": "Dont'e Thornton Jr.", "position": "WR", "team": "LV"}, {"cardId": "card-00-0040586", "name": "Jaydon Blue", "position": "RB", "team": "DAL"}, {"cardId": "card-00-0037231", "name": "Kevin Austin", "position": "WR", "team": "NO"}, {"cardId": "card-00-0036415", "name": "Van Jefferson", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0037837", "name": "Calvin Austin III", "position": "WR", "team": "NYG"}, {"cardId": "card-nk-elijahsarratt", "name": "Elijah Sarratt", "position": "WR", "team": "BAL"}, {"cardId": "card-00-0033955", "name": "Jeremy McNichols", "position": "RB", "team": "WAS"}, {"cardId": "card-00-0040198", "name": "Ollie Gordon II", "position": "RB", "team": "MIA"}, {"cardId": "card-nk-claibornedemond", "name": "Demond Claiborne", "position": "RB", "team": "MIN"}, {"cardId": "card-nk-brenenthompson", "name": "Brenen Thompson", "position": "WR", "team": "LAC"}, {"cardId": "card-00-0029892", "name": "Kyle Juszczyk", "position": "RB", "team": "SF"}, {"cardId": "card-00-0038794", "name": "Jaleel McLaughlin", "position": "RB", "team": "DEN"}, {"cardId": "card-00-0032775", "name": "Demarcus Robinson", "position": "WR", "team": "SF"}, {"cardId": "card-00-0038797", "name": "Emanuel Wilson", "position": "RB", "team": "SEA"}, {"cardId": "card-00-0039521", "name": "Xavier Weaver", "position": "WR", "team": "ARI"}, {"cardId": "card-00-0037614", "name": "John Metchie", "position": "WR", "team": "CAR"}, {"cardId": "card-00-0035406", "name": "Lil'Jordan Humphrey", "position": "WR", "team": "DEN"}, {"cardId": "card-nk-allenkaytron", "name": "Kaytron Allen", "position": "RB", "team": "WAS"}, {"cardId": "card-00-0040646", "name": "Jalen Royals", "position": "WR", "team": "KC"}, {"cardId": "card-00-0033591", "name": "Noah Brown", "position": "WR", "team": "WAS"}, {"cardId": "card-00-0040179", "name": "DJ Giddens", "position": "RB", "team": "IND"}, {"cardId": "card-00-0040078", "name": "Brashard Smith", "position": "RB", "team": "KC"}, {"cardId": "card-00-0039739", "name": "Roman Wilson", "position": "WR", "team": "PIT"}, {"cardId": "card-00-0040202", "name": "Devin Neal", "position": "RB", "team": "NO"}, {"cardId": "card-00-0039299", "name": "George Holani", "position": "RB", "team": "SEA"}, {"cardId": "card-00-0038679", "name": "Tyrell Shavers", "position": "WR", "team": "BUF"}, {"cardId": "card-nk-bellskyler", "name": "Skyler Bell", "position": "WR", "team": "BUF"}, {"cardId": "card-00-0040590", "name": "Konata Mumpfield", "position": "WR", "team": "LA"}, {"cardId": "card-00-0039451", "name": "Isaiah Williams", "position": "WR", "team": "NYJ"}, {"cardId": "card-nk-kyletwilliams", "name": "Kyle T. Williams", "position": "WR", "team": "NE"}, {"cardId": "card-00-0038359", "name": "Xavier Smith", "position": "WR", "team": "LA"}, {"cardId": "card-00-0039363", "name": "Isaac Guerendo", "position": "RB", "team": "SF"}, {"cardId": "card-nk-thomaszavion", "name": "Zavion Thomas", "position": "WR", "team": "CHI"}, {"cardId": "card-00-0035500", "name": "Greg Dortch", "position": "WR", "team": "DET"}, {"cardId": "card-nk-blackkaelon", "name": "Kaelon Black", "position": "RB", "team": "SF"}, {"cardId": "card-00-0040238", "name": "LeQuint Allen", "position": "RB", "team": "JAX"}, {"cardId": "card-00-0038440", "name": "Zavier Scott", "position": "RB", "team": "MIN"}, {"cardId": "card-00-0040466", "name": "Raheim Sanders", "position": "RB", "team": "CLE"}, {"cardId": "card-nk-nicholassingleton", "name": "Nicholas Singleton", "position": "RB", "team": "TEN"}, {"cardId": "card-nk-adamrandall", "name": "Adam Randall", "position": "RB", "team": "BAL"}, {"cardId": "card-00-0039921", "name": "Trey Benson", "position": "RB", "team": "ARI"}, {"cardId": "card-00-0039746", "name": "Will Shipley", "position": "RB", "team": "PHI"}, {"cardId": "card-00-0038738", "name": "Hunter Luepke", "position": "RB", "team": "DAL"}, {"cardId": "card-00-0036212", "name": "Tua Tagovailoa", "position": "QB", "team": "ATL"}, {"cardId": "card-00-0036755", "name": "Jaret Patterson", "position": "RB", "team": "LAC"}, {"cardId": "card-nk-nowakowskiriley", "name": "Riley Nowakowski", "position": "TE", "team": "PIT"}, {"cardId": "card-00-0040668", "name": "Shedeur Sanders", "position": "QB", "team": "CLE"}, {"cardId": "card-00-0029604", "name": "Kirk Cousins", "position": "QB", "team": "LV"}, {"cardId": "card-00-0039376", "name": "Spencer Rattler", "position": "QB", "team": "NO"}, {"cardId": "card-00-0032268", "name": "Marcus Mariota", "position": "QB", "team": "WAS"}, {"cardId": "card-00-0039923", "name": "J.J. McCarthy", "position": "QB", "team": "MIN"}, {"cardId": "card-00-0034771", "name": "Mason Rudolph", "position": "QB", "team": "PIT"}, {"cardId": "card-00-0031503", "name": "Jameis Winston", "position": "QB", "team": "NYG"}, {"cardId": "card-00-0039164", "name": "Anthony Richardson", "position": "QB", "team": "IND"}, {"cardId": "card-00-0036898", "name": "Davis Mills", "position": "QB", "team": "HOU"}, {"cardId": "card-00-0036972", "name": "Mac Jones", "position": "QB", "team": "SF"}, {"cardId": "card-nk-beckcarson", "name": "Carson Beck", "position": "QB", "team": "ARI"}, {"cardId": "card-00-0028118", "name": "Tyrod Taylor", "position": "QB", "team": "GB"}, {"cardId": "card-nk-simpsonty", "name": "Ty Simpson", "position": "QB", "team": "LA"}, {"cardId": "card-00-0026158", "name": "Joe Flacco", "position": "QB", "team": "CIN"}, {"cardId": "card-00-0039398", "name": "Joe Milton", "position": "QB", "team": "DAL"}, {"cardId": "card-00-0035289", "name": "Gardner Minshew", "position": "QB", "team": "ARI"}, {"cardId": "card-00-0035100", "name": "Jake Browning", "position": "QB", "team": "TB"}, {"cardId": "card-00-0036945", "name": "Justin Fields", "position": "QB", "team": "KC"}, {"cardId": "card-00-0040234", "name": "Quinn Ewers", "position": "QB", "team": "MIA"}, {"cardId": "card-00-0038102", "name": "Kenny Pickett", "position": "QB", "team": "CAR"}];
       const NUM_TEAMS = 8;
+      const MY_TEAM_INDEX = 0;
       const SEED_DRAFT_STATE = {"teams": [{"name": "Mike", "owner": ""}, {"name": "Keith", "owner": ""}, {"name": "Russo", "owner": ""}, {"name": "Tom", "owner": ""}, {"name": "Ian", "owner": ""}, {"name": "Mark", "owner": ""}, {"name": "Kellee", "owner": ""}, {"name": "Jayme", "owner": ""}], "picks": {"card-00-0039139": {"team": 3, "pick": 1, "round": 1, "keeper": true}, "card-00-0034857": {"team": 4, "pick": 2, "round": 1, "keeper": true}, "card-00-0036900": {"team": 5, "pick": 3, "round": 1, "keeper": true}, "card-00-0033280": {"team": 6, "pick": 4, "round": 2, "keeper": true}, "card-00-0036963": {"team": 0, "pick": 5, "round": 3, "keeper": true}, "card-00-0038543": {"team": 6, "pick": 6, "round": 4, "keeper": true}, "card-00-0040734": {"team": 1, "pick": 7, "round": 6, "keeper": true}, "card-00-0040715": {"team": 0, "pick": 8, "round": 10, "keeper": true}, "card-00-0039851": {"team": 3, "pick": 9, "round": 12, "keeper": true}, "card-00-0040129": {"team": 1, "pick": 10, "round": 12, "keeper": true}, "card-00-0036997": {"team": 5, "pick": 11, "round": 14, "keeper": true}, "card-00-0036223": {"team": 7, "pick": 12, "round": 3, "keeper": true}, "card-00-0039918": {"team": 7, "pick": 13, "round": 12, "keeper": true}}, "nextPick": 14};
       const DRAFT_KEY = 'ffDraftBoardState_v1';
 
@@ -13305,6 +13363,27 @@
         draft: [draftView, tabDraft],
       };
 
+      function updateStickyOffsets() {
+        const ticker = document.querySelector('.ticker');
+        const h1 = document.querySelector('h1');
+        const toggle = document.querySelector('.view-toggle');
+        const topRow = document.querySelector('#summary-view .summary-top-row');
+        const theadRow = document.querySelector('.summary-table-wrap thead tr');
+
+        let offset = ticker.getBoundingClientRect().height;
+        h1.style.top = `${offset}px`;
+        offset += h1.getBoundingClientRect().height;
+        toggle.style.top = `${offset}px`;
+        offset += toggle.getBoundingClientRect().height;
+        if (topRow) {
+          topRow.style.top = `${offset}px`;
+          offset += topRow.getBoundingClientRect().height;
+        }
+        if (theadRow) {
+          theadRow.querySelectorAll('th').forEach((th) => { th.style.top = `${offset}px`; });
+        }
+      }
+
       function showView(view) {
         Object.values(VIEWS).forEach(([sectionEl, tabEl]) => {
           sectionEl.classList.remove('active');
@@ -13314,6 +13393,7 @@
         sectionEl.classList.add('active');
         tabEl.classList.add('active');
         tabEl.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        updateStickyOffsets();
       }
 
       function showCard(cardId) {
@@ -13388,24 +13468,70 @@
         return team.owner ? `${team.name} (${team.owner})` : team.name;
       }
 
+      function upcomingPickTeams(count) {
+        // Walks the snake-draft grid (round x team, alternating direction each
+        // round) skipping any (team, round) slot a keeper already occupies,
+        // and returns the next `count` {team, round} slots after however
+        // many live (non-keeper) picks have been made so far. A default
+        // suggestion only -- nothing here enforces it or validates that live
+        // picks were actually entered in this order, so manual overrides
+        // always win.
+        const keeperSlots = new Set();
+        let liveCount = 0;
+        Object.values(draftState.picks).forEach((p) => {
+          if (p.keeper) {
+            keeperSlots.add(`${p.team}-${p.round}`);
+          } else {
+            liveCount++;
+          }
+        });
+        const result = [];
+        let seen = 0;
+        for (let round = 1; round <= 60 && result.length < count; round++) {
+          const forward = round % 2 === 1;
+          for (let pos = 0; pos < NUM_TEAMS && result.length < count; pos++) {
+            const team = forward ? pos : NUM_TEAMS - 1 - pos;
+            if (keeperSlots.has(`${team}-${round}`)) continue;
+            if (seen >= liveCount) result.push({team, round});
+            seen++;
+          }
+        }
+        return result;
+      }
+
+      function currentPickTeamIndex() {
+        const next = upcomingPickTeams(1)[0];
+        return next ? next.team : 0;
+      }
+
+      function picksUntilTeam(teamIndex) {
+        const upcoming = upcomingPickTeams(NUM_TEAMS * 10);
+        const idx = upcoming.findIndex((slot) => slot.team === teamIndex);
+        return idx === -1 ? null : idx;
+      }
+
       function buildTeamSelect(cardId) {
+        const wrap = document.createElement('span');
+        wrap.className = 'draft-controls-inline';
         const sel = document.createElement('select');
         sel.className = 'draft-select';
-        const placeholder = document.createElement('option');
-        placeholder.value = '';
-        placeholder.textContent = 'Draft to...';
-        sel.appendChild(placeholder);
         draftState.teams.forEach((team, i) => {
           const opt = document.createElement('option');
           opt.value = String(i);
           opt.textContent = teamLabel(i);
           sel.appendChild(opt);
         });
-        sel.addEventListener('change', () => {
-          if (sel.value === '') return;
+        sel.value = String(currentPickTeamIndex());
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'draft-confirm-btn';
+        btn.textContent = 'Draft';
+        btn.addEventListener('click', () => {
           draftPlayer(cardId, Number(sel.value));
         });
-        return sel;
+        wrap.appendChild(sel);
+        wrap.appendChild(btn);
+        return wrap;
       }
 
       function buildDraftStatus(cardId, pick) {
@@ -13497,6 +13623,21 @@
           header.appendChild(ownerInput);
           panel.appendChild(header);
 
+          const posCounts = {QB: 0, RB: 0, WR: 0, TE: 0};
+          picksForTeam.forEach(([cardId]) => {
+            const player = playersById[cardId];
+            if (player && posCounts.hasOwnProperty(player.position)) posCounts[player.position]++;
+          });
+          const posBucket = document.createElement('div');
+          posBucket.className = 'team-pos-bucket';
+          ['QB', 'RB', 'WR', 'TE'].forEach((pos) => {
+            const chip = document.createElement('span');
+            chip.className = `pos-bucket-chip pos-${pos}`;
+            chip.textContent = `${pos} ${posCounts[pos]}`;
+            posBucket.appendChild(chip);
+          });
+          panel.appendChild(posBucket);
+
           if (picksForTeam.length === 0) {
             const empty = document.createElement('p');
             empty.className = 'team-roster-empty';
@@ -13572,12 +13713,66 @@
         teamSelect.value = current;
       }
 
+      function renderDraftStatusPanel() {
+        const next = upcomingPickTeams(1)[0];
+        const forward = !next || next.round % 2 === 1;
+        const arrowChar = forward ? '→' : '←';
+
+        const bar = document.getElementById('draft-order-bar');
+        bar.innerHTML = '';
+        draftState.teams.forEach((team, i) => {
+          const cell = document.createElement('div');
+          cell.className = 'draft-order-team';
+          if (next && next.team === i) cell.classList.add('on-clock');
+          const arrow = document.createElement('span');
+          arrow.className = 'draft-order-arrow';
+          arrow.textContent = arrowChar;
+          const name = document.createElement('span');
+          name.className = 'draft-order-name';
+          name.textContent = teamLabel(i);
+          cell.appendChild(arrow);
+          cell.appendChild(name);
+          bar.appendChild(cell);
+        });
+
+        const countdown = picksUntilTeam(MY_TEAM_INDEX);
+        const countdownEl = document.getElementById('dsp-countdown');
+        if (countdown === null) {
+          countdownEl.innerHTML = '';
+        } else if (countdown === 0) {
+          countdownEl.innerHTML = `<strong>You&rsquo;re on the clock!</strong>`;
+        } else {
+          countdownEl.innerHTML = `<strong>${countdown}</strong> pick${countdown === 1 ? '' : 's'} until your next pick`;
+        }
+      }
+
+      function renderProjectedPickStar() {
+        document.querySelectorAll('.projected-pick-star').forEach((el) => el.remove());
+        const countdown = picksUntilTeam(MY_TEAM_INDEX);
+        if (countdown === null) return;
+        const undraftedRows = [...document.querySelectorAll('#summary-view tr.player-row')]
+          .filter((row) => !row.classList.contains('drafted'));
+        const targetRow = undraftedRows[countdown];
+        if (!targetRow) return;
+        const link = targetRow.querySelector('a.player-link');
+        const star = document.createElement('span');
+        star.className = 'projected-pick-star';
+        star.textContent = '★';
+        star.title = 'Projected to be your next pick, assuming every pick before yours takes the top available player';
+        link.parentNode.insertBefore(star, link);
+      }
+
       function renderAll() {
         renderAllRowStates();
         renderTeamPanels();
         renderTicker();
         renderKeeperTeamSelect();
+        renderDraftStatusPanel();
+        renderProjectedPickStar();
+        updateStickyOffsets();
       }
+
+      window.addEventListener('resize', updateStickyOffsets);
 
       document.getElementById('reset-draft-btn').addEventListener('click', () => {
         if (!window.confirm('Reset the entire draft? This clears every pick (team names are kept).')) return;
@@ -13596,18 +13791,20 @@
         renderAll();
       });
 
-      document.getElementById('apply-keepers-btn').addEventListener('click', () => {
-        const keeperPicks = (SEED_DRAFT_STATE && SEED_DRAFT_STATE.picks) || {};
-        const count = Object.keys(keeperPicks).length;
-        if (count === 0) {
-          window.alert('No keepers configured (data_sources/keepers_2026.csv) -- nothing to apply.');
-          return;
-        }
-        if (!window.confirm(`Apply keepers? This clears every current pick and replaces them with the ${count} keepers on the Keepers tab. Team names and owners you've edited are kept.`)) return;
-        draftState.picks = JSON.parse(JSON.stringify(keeperPicks));
-        draftState.nextPick = count + 1;
-        saveDraftState();
-        renderAll();
+      document.querySelectorAll('.btn-apply-keepers').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const keeperPicks = (SEED_DRAFT_STATE && SEED_DRAFT_STATE.picks) || {};
+          const count = Object.keys(keeperPicks).length;
+          if (count === 0) {
+            window.alert('No keepers configured (data_sources/keepers_2026.csv) -- nothing to apply.');
+            return;
+          }
+          if (!window.confirm(`Apply keepers? This clears every current pick and replaces them with the ${count} keepers on the Keepers tab. Team names and owners you've edited are kept.`)) return;
+          draftState.picks = JSON.parse(JSON.stringify(keeperPicks));
+          draftState.nextPick = count + 1;
+          saveDraftState();
+          renderAll();
+        });
       });
 
       // Keeper form's player list is static (doesn't depend on draft state), so
